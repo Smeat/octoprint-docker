@@ -1,0 +1,12 @@
+image: smeat/octoprint
+manifests:
+  -
+    image: smeat/octoprint:amd64
+    platform:
+      architecture: amd64
+      os: linux
+  -
+    image: smeat/octoprint:arm
+    platform:
+      architecture: arm
+      os: linux
