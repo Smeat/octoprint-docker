@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	avrdude \
 	curl
 
+RUN adduser --system octoprint \
+ && addgroup octoprint \
+ && usermod -aG octoprint octoprint
 
 RUN apt-get clean \
 	&& rm -rf /tmp/* /var/tmp/*  \
@@ -18,9 +21,12 @@ RUN apt-get clean \
 WORKDIR /octoprint
 RUN git clone https://github.com/foosel/OctoPrint.git /octoprint
 RUN pip install -r requirements.txt 
-RUN python setup.py install 
+RUN python setup.py install
+RUN mkdir /data
+RUN chown octoprint:octoprint -R /octoprint /data 
 
+USER octoprint
 VOLUME /data
 WORKDIR /data
 EXPOSE 5000
-CMD ["octoprint",  "--iknowwhatimdoing", "--basedir" ,"/data"]
+CMD ["octoprint", "--basedir" ,"/data"]
