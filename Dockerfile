@@ -1,5 +1,5 @@
-FROM ubuntu
-MAINTAINER marius.wyss+dockerhub@gmail.com
+FROM smeat/debian:jessie
+MAINTAINER smeatsan+dockerhub@gmail.com #thanks to https://github.com/MrWyss
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	python-pip \
