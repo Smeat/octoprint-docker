@@ -8,22 +8,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	build-essential \
 	libav-tools \
 	avrdude \
-	curl
+	curl && apt-get clean \
+	&& rm -rf /tmp/* /var/tmp/*  \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN adduser --system octoprint \
  && addgroup octoprint \
  && usermod -aG octoprint octoprint
 
-RUN apt-get clean \
-	&& rm -rf /tmp/* /var/tmp/*  \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /octoprint
-RUN git clone https://github.com/foosel/OctoPrint.git /octoprint
-RUN pip install -r requirements.txt 
-RUN python setup.py install
-RUN mkdir /data
-RUN chown octoprint:octoprint -R /octoprint /data 
+RUN git clone https://github.com/foosel/OctoPrint.git /octoprint && pip install -r requirements.txt && python setup.py install && mkdir /data && chown octoprint:octoprint -R /octoprint /data
 
 USER octoprint
 VOLUME /data
